@@ -216,6 +216,258 @@
 				"description": "\t"
 			},
 			"response": []
+		},
+		{
+			"name": "Query for all parks",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"filtered\": {\r\n            \"query\": {\r\n                \"query_string\": {\r\n                    \"query\": \"drama\"\r\n                }\r\n            },\r\n            \"filter\": {\r\n                \"term\": { \"year\": 1962 }\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query for all parks - sorted on world heritage site and number of visitors",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"match_all\": {}\r\n    }\r\n    ,\"sort\":[\r\n    \t{\"world_heritage_site\":\"desc\"},\r\n    \t{\"visitors\":\"asc\"}\r\n    \t]\r\n    \t,\"_source\":[\"title\",\"states.title\",\"visitors\",\"description\",\"date_established_readable\"]\r\n    ,\"size\":40\t\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/doc/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"doc",
+						"_search"
+					]
+				},
+				"description": "Match all national parks, sort them by world heritage site (the parks thart are one come fist) and subsequently by number of visitors. Only return a limited number of properties. Return 40 records."
+			},
+			"response": []
+		},
+		{
+			"name": "Query Parks - in a state whose name starts with M",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"M*\"\r\n            ,\"fields\": [\"states.title\"]\r\n           \r\n        }\r\n    }\r\n    }"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Parks - sort for distance from New York",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"mountain\"\r\n        }\r\n    },\r\n    \"sort\": { \"_geo_distance\": {\r\n    \t\"coordinates\":\"40.7,-74\",\r\n    \t\"order\":\"asc\",\r\n    \t\"unit\":\"km\"\r\n    }}\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Parks - that contain Mountain",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"mountain\"\r\n        }\r\n    }\r\n    }"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query and Filter Parks - that ideally contain Mountain and are a World Heritage Site for sure",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"bool\": {\r\n            \"should\": {\r\n                \"match\": {\r\n                    \"description\": \"mountain\"\r\n                }\r\n            },\r\n            \"filter\": {\r\n                \"term\": {\r\n                    \"world_heritage_site\": true\r\n                }\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Parks by description  with as much largest and mountain as possible -  with query execution explanation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"match\": {\r\n            \"description\": \"largest mountain\"\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_search?explain=true",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "explain",
+							"value": "true",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Parks - fuzzy, proximity - with query execution explanation",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"match\": {\r\n            \"description\": \"largest mountain ~5\"\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_search?q=description%3Amountaon~2+visitors%3A<1000000+!(states.title%3AAlaska)&default_operator=AND",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "description%3Amountaon~2+visitors%3A<1000000+!(states.title%3AAlaska)",
+							"equals": true
+						},
+						{
+							"key": "default_operator",
+							"value": "AND",
+							"equals": true
+						}
+					]
+				},
+				"description": "Search for parks who have the string \"mountaon\" in their description - or something that is close to it (our fuzziness allows for up to two character edits distance); we also require (note how the default-operator is explicitly set to AND) the number of visitors to be under 1 Million and they are not located in Alaska."
+			},
+			"response": []
 		}
 	]
 }
