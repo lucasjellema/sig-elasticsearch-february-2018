@@ -7,6 +7,35 @@
 	},
 	"item": [
 		{
+			"name": "Elastic: check health of server",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/_cat/health",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"_cat",
+						"health"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
 			"name": "Elastic: create Parks index",
 			"request": {
 				"method": "PUT",
@@ -18,7 +47,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n  \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"std_english\": { \n          \"type\":      \"standard\",\n          \"stopwords\": \"_english_\"\n        }\n      }\n    }\n   }\n}"
 				},
 				"url": {
 					"raw": "{{ELASTIC_HOME}}:9200/parks",
@@ -82,7 +111,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"properties\": {\r\n        \"area\": {\r\n            \"properties\": {\r\n                \"acres\": {\r\n                    \"type\": \"float\"\r\n                },\r\n                \"square_km\": {\r\n                    \"type\": \"float\"\r\n                }\r\n            }\r\n        },\r\n        \"coordinates\": {\r\n            \"type\": \"geo_point\"\r\n        },\r\n        \"date_established_readable\": {\r\n            \"type\": \"date\",\r\n            \"format\":\"MMMM d, y\"                        \r\n        },\r\n        \"date_established_unix\": {\r\n            \"type\": \"long\"\r\n        },\r\n        \"description\": {\r\n            \"type\": \"text\",\r\n            \"fielddata\": true\r\n        },\r\n        \"id\": {\r\n            \"type\": \"text\",\r\n            \"fields\": {\r\n                \"keyword\": {\r\n                    \"type\": \"keyword\",\r\n                    \"ignore_above\": 256\r\n                }\r\n            }\r\n        },\r\n        \"image\": {\r\n            \"properties\": {\r\n                \"attribution\": {\r\n                    \"type\": \"text\",\r\n                    \"fields\": {\r\n                        \"keyword\": {\r\n                            \"type\": \"keyword\",\r\n                            \"ignore_above\": 256\r\n                        }\r\n                    }\r\n                },\r\n                \"attribution_url\": {\r\n                    \"type\": \"text\",\r\n                    \"fields\": {\r\n                        \"keyword\": {\r\n                            \"type\": \"keyword\",\r\n                            \"ignore_above\": 256\r\n                        }\r\n                    }\r\n                },\r\n                \"url\": {\r\n                    \"type\": \"text\",\r\n                    \"fields\": {\r\n                        \"keyword\": {\r\n                            \"type\": \"keyword\",\r\n                            \"ignore_above\": 256\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        },\r\n        \"nps_link\": {\r\n            \"type\": \"text\",\r\n            \"fields\": {\r\n                \"keyword\": {\r\n                    \"type\": \"keyword\",\r\n                    \"ignore_above\": 256\r\n                }\r\n            }\r\n        },\r\n        \"states\": {\r\n            \"properties\": {\r\n                \"id\": {\r\n                    \"type\": \"text\",\r\n                    \"fields\": {\r\n                        \"keyword\": {\r\n                            \"type\": \"keyword\",\r\n                            \"ignore_above\": 256\r\n                        }\r\n                    }\r\n                },\r\n                \"title\": {\r\n                    \"type\": \"text\",\r\n                    \"fields\": {\r\n                        \"keyword\": {\r\n                            \"type\": \"keyword\",\r\n                            \"ignore_above\": 256\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        },\r\n        \"title\": {\r\n            \"type\": \"text\",\r\n            \"fields\": {\r\n                \"keyword\": {\r\n                    \"type\": \"keyword\",\r\n                    \"ignore_above\": 256\r\n                }\r\n            }\r\n        },\r\n        \"visitors\": {\r\n            \"type\": \"integer\"\r\n        },\r\n        \"world_heritage_site\": {\r\n            \"type\": \"boolean\"\r\n        }\r\n    }\r\n}\r\n"
+					"raw": "{\"properties\": {\n        \"area\": {\n            \"properties\": {\n                \"acres\": {\n                    \"type\": \"float\"\n                },\n                \"square_km\": {\n                    \"type\": \"float\"\n                }\n            }\n        },\n        \"coordinates\": {\n            \"type\": \"geo_point\"\n        },\n        \"date_established_readable\": {\n            \"type\": \"date\",\n            \"format\":\"MMMM d, y\"                        \n        },\n        \"date_established_unix\": {\n            \"type\": \"long\"\n        },\n        \"description\": {\n            \"type\": \"text\",\n        \"analyzer\": \"std_english\",\n       \"fielddata\": true\n        },\n        \"id\": {\n            \"type\": \"text\",\n            \"fields\": {\n                \"keyword\": {\n                    \"type\": \"keyword\",\n                    \"ignore_above\": 256\n                }\n            }\n        },\n        \"image\": {\n            \"properties\": {\n                \"attribution\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                },\n                \"attribution_url\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                },\n                \"url\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                }\n            }\n        },\n        \"nps_link\": {\n            \"type\": \"text\",\n            \"fields\": {\n                \"keyword\": {\n                    \"type\": \"keyword\",\n                    \"ignore_above\": 256\n                }\n            }\n        },\n        \"states\": {\n            \"properties\": {\n                \"id\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                },\n                \"title\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                }\n            }\n        },\n        \"title\": {\n            \"type\": \"text\",\n            \"fields\": {\n                \"keyword\": {\n                    \"type\": \"keyword\",\n                    \"ignore_above\": 256\n                }\n            }\n        },\n        \"visitors\": {\n            \"type\": \"integer\"\n        },\n        \"world_heritage_site\": {\n            \"type\": \"boolean\"\n        }\n    }\n}\n"
 				},
 				"url": {
 					"raw": "{{ELASTIC_HOME}}:9200/parks/_mapping/doc",
