@@ -111,7 +111,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"properties\": {\n        \"area\": {\n            \"properties\": {\n                \"acres\": {\n                    \"type\": \"float\"\n                },\n                \"square_km\": {\n                    \"type\": \"float\"\n                }\n            }\n        },\n        \"coordinates\": {\n            \"type\": \"geo_point\"\n        },\n        \"date_established_readable\": {\n            \"type\": \"date\",\n            \"format\":\"MMMM d, y\"                        \n        },\n        \"date_established_unix\": {\n            \"type\": \"long\"\n        },\n        \"description\": {\n            \"type\": \"text\",\n        \"analyzer\": \"std_english\",\n       \"fielddata\": true\n        },\n        \"id\": {\n            \"type\": \"text\",\n            \"fields\": {\n                \"keyword\": {\n                    \"type\": \"keyword\",\n                    \"ignore_above\": 256\n                }\n            }\n        },\n        \"image\": {\n            \"properties\": {\n                \"attribution\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                },\n                \"attribution_url\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                },\n                \"url\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                }\n            }\n        },\n        \"nps_link\": {\n            \"type\": \"text\",\n            \"fields\": {\n                \"keyword\": {\n                    \"type\": \"keyword\",\n                    \"ignore_above\": 256\n                }\n            }\n        },\n        \"states\": {\n            \"properties\": {\n                \"id\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                },\n                \"title\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                }\n            }\n        },\n        \"title\": {\n            \"type\": \"text\",\n            \"fields\": {\n                \"keyword\": {\n                    \"type\": \"keyword\",\n                    \"ignore_above\": 256\n                }\n            }\n        },\n        \"visitors\": {\n            \"type\": \"integer\"\n        },\n        \"world_heritage_site\": {\n            \"type\": \"boolean\"\n        }\n    }\n}\n"
+					"raw": "{\"properties\": {\n        \"area\": {\n            \"properties\": {\n                \"acres\": {\n                    \"type\": \"float\"\n                },\n                \"square_km\": {\n                    \"type\": \"float\"\n                }\n            }\n        },\n        \"coordinates\": {\n            \"type\": \"geo_point\"\n        },\n        \"date_established_readable\": {\n            \"type\": \"date\",\n            \"format\":\"MMMM d, y\"                        \n        },\n        \"date_established_unix\": {\n            \"type\": \"long\"\n        },\n        \"description\": {\n            \"type\": \"text\",\n        \"analyzer\": \"std_english\",\n       \"fielddata\": true\n        },\n        \"id\": {\n            \"type\": \"text\",\n            \"fields\": {\n                \"keyword\": {\n                    \"type\": \"keyword\",\n                    \"ignore_above\": 256\n                }\n            }\n        },\n        \"image\": {\n            \"properties\": {\n                \"attribution\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                },\n                \"attribution_url\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                },\n                \"url\": {\n                    \"type\": \"text\",\n                    \"fields\": {\n                        \"keyword\": {\n                            \"type\": \"keyword\",\n                            \"ignore_above\": 256\n                        }\n                    }\n                }\n            }\n        },\n        \"nps_link\": {\n            \"type\": \"text\",\n            \"fields\": {\n                \"keyword\": {\n                    \"type\": \"keyword\",\n                    \"ignore_above\": 256\n                }\n            }\n        },\n        \"states\": {\n            \"properties\": {\n                \"id\": {\n                    \"type\": \"keyword\"\n                },\n                \"title\": {\n                    \"type\": \"keyword\"\n                }\n            }\n        },\n        \"title\": {\n            \"type\": \"keyword\"\n        },\n        \"visitors\": {\n            \"type\": \"integer\"\n        },\n        \"world_heritage_site\": {\n            \"type\": \"boolean\"\n        }\n    }\n}\n"
 				},
 				"url": {
 					"raw": "{{ELASTIC_HOME}}:9200/parks/_mapping/doc",
@@ -288,7 +288,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"M*\"\r\n            ,\"fields\": [\"states.title\"]\r\n           \r\n        }\r\n    }\r\n    }"
+					"raw": "{\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"M*\"\r\n            ,\"fields\": [\"states.title\"]\r\n           \r\n        }\r\n    }\r\n}"
 				},
 				"url": {
 					"raw": "{{ELASTIC_HOME}}:9200/parks/_search",
@@ -346,7 +346,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"mountain\"\r\n        }\r\n    }\r\n    }"
+					"raw": "{\r\n    \"query\": {\r\n        \"query_string\": {\r\n            \"query\": \"mountain\"\r\n        }\r\n    }\r\n}"
 				},
 				"url": {
 					"raw": "{{ELASTIC_HOME}}:9200/parks/_search",
@@ -393,7 +393,7 @@
 			"response": []
 		},
 		{
-			"name": "Query Parks by description  with as much largest and mountain as possible -  with query execution explanation",
+			"name": "Query Parks by description  with as much largest and mountain as possible -  with highlighting and query execution explanation",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -404,7 +404,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"query\": {\r\n        \"match\": {\r\n            \"description\": \"largest mountain\"\r\n        }\r\n    }\r\n}"
+					"raw": "{\r\n    \"query\": {\r\n        \"match\": {\r\n            \"description\": \"largest mountain\"\r\n        }\r\n    },\r\n    \"highlight\" : {\r\n        \"fields\" : {\r\n            \"description\" : {}\r\n        }\r\n    }\r\n}"
 				},
 				"url": {
 					"raw": "{{ELASTIC_HOME}}:9200/parks/_search?explain=true",
@@ -466,6 +466,150 @@
 					]
 				},
 				"description": "Search for parks who have the string \"mountaon\" in their description - or something that is close to it (our fuzziness allows for up to two character edits distance); we also require (note how the default-operator is explicitly set to AND) the number of visitors to be under 1 Million and they are not located in Alaska."
+			},
+			"response": []
+		},
+		{
+			"name": "Query Park Area aggregate (sum) area per state",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"size\":0,\r\n    \"aggs\": {\r\n        \"by_state\": {\r\n            \"terms\": {\r\n                \"field\": \"states.title\"\r\n            },\r\n            \"aggs\": {\r\n                \"state_park_area\": {\r\n                    \"sum\": {\r\n                        \"field\": \"area.square_km\"\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n}\r\n"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_search?explain=true",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "explain",
+							"value": "true",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Total Park Visitors Count",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"size\": 0,\r\n    \"aggs\": {\r\n        \"visitor_count\": {\r\n            \"sum\": {\r\n                \"field\": \"visitors\"\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_search?explain=true",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "explain",
+							"value": "true",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Parks - Established per decade",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"size\": 0,\r\n    \"aggs\": {\r\n        \"state_park_area\": {\r\n            \"date_histogram\": {\r\n                \"field\": \"date_established_readable\",\r\n                \"format\": \"yyyy\",\r\n                \"interval\": \"3653d\",\r\n                \"extended_bounds\": {\r\n                    \"min\": \"1860\",\r\n                    \"max\": \"2020\"\r\n                }\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_search?explain=true",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "explain",
+							"value": "true",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query States by Park Area aggregate (sum) area sorted descending",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"size\": 0,\r\n    \"aggs\": {\r\n        \"by_state\": {\r\n            \"terms\": {\r\n                \"field\": \"states.title\",\r\n                \"order\": {\r\n                    \"state_park_area\": \"desc\"\r\n                }\r\n            },\r\n            \"aggs\": {\r\n                \"state_park_area\": {\r\n                    \"sum\": {\r\n                        \"field\": \"area.square_km\"\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_search?explain=true",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "explain",
+							"value": "true",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
 			},
 			"response": []
 		}
