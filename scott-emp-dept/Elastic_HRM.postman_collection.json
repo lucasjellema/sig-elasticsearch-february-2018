@@ -1,0 +1,461 @@
+{
+	"info": {
+		"name": "Elastic_HRM",
+		"_postman_id": "838374af-1a31-b195-e10b-6271fd07b58b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Elastic: create HRM index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"std_english\": { \n          \"type\":      \"standard\",\n          \"stopwords\": \"_english_\"\n        }\n      }\n    }\n   }\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: put single employee document",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"EMPNO\":7369, \"ENAME\":\"SMITH\", \"JOB\":\"CLERK\", \"HIREDATE\":\"17-12-1980\",\"MGR\":7902, \"SAL\":800,\"COMM\":\"\", \"DEPTNO\":20}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm/employees/_1",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm",
+						"employees",
+						"_1"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Mapping definition for HRM index Type Employee",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"area\": {\n      \"acres\": \"49,057.36\",\n      \"square_km\": \"198.5\"\n    },\n    \"coordinates\": {\n      \"latitude\": 44.35,\n      \"longitude\": -68.21\n    },\n    \"date_established_readable\": \"February 26, 1919\",\n    \"date_established_unix\": -1604599200,\n    \"description\": \"Covering most of Mount Desert Island and other coastal islands, Acadia features the tallest mountain on the Atlantic coast of the United States, granite peaks, ocean shoreline, woodlands, and lakes. There are freshwater, estuary, forest, and intertidal habitats.\",\n    \"image\": {\n      \"url\": \"acadia.jpg\",\n      \"attribution\": \"PixelBay/@Skeeze\",\n      \"attribution_url\": \"https://pixabay.com/en/users/skeeze-272447/\"\n    },\n    \"nps_link\": \"https://www.nps.gov/acad/index.htm\",\n    \"states\": [\n      {\n        \"id\": \"state_maine\",\n        \"title\": \"Maine\"\n      }\n    ],\n    \"title\": \"Acadia\",\n    \"id\": \"park_acadia\",\n    \"visitors\": \"3,303,393\",\n    \"world_heritage_site\": false\n  }"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/_mapping?pretty",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"_mapping"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": "",
+							"equals": false
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: delete HRM index",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: create mapping for HRM index",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"properties\": {\r\n        \"COMM\": {\r\n            \"type\": \"long\"\r\n        },\r\n        \"DEPTNO\": {\r\n            \"type\": \"long\"\r\n        },\r\n        \"EMPNO\": {\r\n            \"type\": \"long\"\r\n        },\r\n        \"ENAME\": {\r\n            \"type\": \"text\",\r\n            \"fielddata\": true,\r\n            \"fields\": {\r\n                \"keyword\": {\r\n                    \"type\": \"keyword\",\r\n                    \"ignore_above\": 256\r\n                }\r\n            }\r\n        },\r\n        \"HIREDATE\": {\r\n            \"type\": \"date\",\r\n            \"format\": \"dd-MM-yyyy\"\r\n        }\r\n    ,\r\n    \"JOB\": {\r\n        \"type\": \"keyword\"\r\n    },\r\n    \"MGR\": {\r\n        \"type\": \"integer\"\r\n    },\r\n    \"SAL\": {\r\n        \"type\": \"long\"\r\n    }\r\n}\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm/_mapping/employees",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm",
+						"_mapping",
+						"employees"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Elastic: bulk put set of employees documents",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"create\" : {\"_id\" : \"6\" } }\r\n{\"EMPNO\":7369, \"ENAME\":\"SMITH\", \"JOB\":\"CLERK\", \"HIREDATE\":\"17-12-1980\",\"MGR\":7902, \"SAL\":800, \"DEPTNO\":20}\r\n{ \"create\" : {\"_id\" : \"16\" } }\r\n{\"EMPNO\":7499, \"ENAME\":\"ALLEN\", \"JOB\":\"SALESMAN\", \"HIREDATE\":\"20-02-1981\",\"MGR\":7698, \"SAL\":1600,\"COMM\":300, \"DEPTNO\":30}\r\n{ \"create\" : {\"_id\" : \"26\" } }\r\n{\"EMPNO\":7521, \"ENAME\":\"WARD\", \"JOB\":\"SALESMAN\", \"HIREDATE\":\"22-02-1981\",\"MGR\":7698, \"SAL\":1250,\"COMM\":500, \"DEPTNO\":30}\r\n{ \"create\" : {\"_id\" : \"36\" } }\r\n{\"EMPNO\":7566, \"ENAME\":\"JONES\", \"JOB\":\"MANAGER\", \"HIREDATE\":\"02-04-1981\",\"MGR\":7839, \"SAL\":2975, \"DEPTNO\":20}\r\n{ \"create\" : {\"_id\" : \"46\" } }\r\n{\"EMPNO\":7654, \"ENAME\":\"MARTIN\", \"JOB\":\"SALESMAN\", \"HIREDATE\":\"28-09-1981\",\"MGR\":7698, \"SAL\":1250,\"COMM\":1400, \"DEPTNO\":30}\r\n{ \"create\" : {\"_id\" : \"56\" } }\r\n{\"EMPNO\":7782, \"ENAME\":\"CLARK\", \"JOB\":\"MANAGER\", \"HIREDATE\":\"09-06-1981\",\"MGR\":7839, \"SAL\":2450, \"DEPTNO\":10}\r\n{ \"create\" : {\"_id\" : \"66\" } }\r\n{\"EMPNO\":7788, \"ENAME\":\"SCOTT\", \"JOB\":\"ANALYST\", \"HIREDATE\":\"09-12-1982\",\"MGR\":7566, \"SAL\":3000, \"DEPTNO\":20}\r\n{ \"create\" : {\"_id\" : \"76\" } }\r\n{\"EMPNO\":7839, \"ENAME\":\"KING\", \"JOB\":\"PRESIDENT\", \"HIREDATE\":\"17-11-1981\", \"SAL\":5000, \"DEPTNO\":10}\r\n{ \"create\" : {\"_id\" : \"86\" } }\r\n{\"EMPNO\":7844, \"ENAME\":\"TURNER\", \"JOB\":\"SALESMAN\", \"HIREDATE\":\"08-09-1981\",\"MGR\":7698, \"SAL\":1500,\"COMM\":0, \"DEPTNO\":30}\r\n{ \"create\" : {\"_id\" : \"96\" } }\r\n{\"EMPNO\":7876, \"ENAME\":\"ADAMS\", \"JOB\":\"CLERK\", \"HIREDATE\":\"12-01-1983\",\"MGR\":7788, \"SAL\":1100, \"DEPTNO\":20}\r\n{ \"create\" : {\"_id\" : \"106\" } }\r\n{\"EMPNO\":7900, \"ENAME\":\"JAMES\", \"JOB\":\"CLERK\", \"HIREDATE\":\"03-12-1981\",\"MGR\":7698, \"SAL\":950, \"DEPTNO\":30}\r\n{ \"create\" : {\"_id\" : \"116\" } }\r\n{\"EMPNO\":7902, \"ENAME\":\"FORD\", \"JOB\":\"ANALYST\", \"HIREDATE\":\"03-12-1981\",\"MGR\":7566, \"SAL\":3000, \"DEPTNO\":20}\r\n{ \"create\" : {\"_id\" : \"126\" } }\r\n{\"EMPNO\":7934, \"ENAME\":\"MILLER\", \"JOB\":\"CLERK\", \"HIREDATE\":\"23-01-1982\",\"MGR\":7782, \"SAL\":1300, \"DEPTNO\":10}\r\n{ \"create\" : {\"_id\" : \"136\" } }\r\n{\"EMPNO\":7698, \"ENAME\":\"BLAKE\", \"JOB\":\"MANAGER\", \"HIREDATE\":\"01-05-1981\",\"MGR\":7839, \"SAL\":2850, \"DEPTNO\":30}\r\n"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm/employees/_bulk",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm",
+						"employees",
+						"_bulk"
+					]
+				},
+				"description": "\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Query for all employees",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": {\r\n        \"filtered\": {\r\n            \"query\": {\r\n                \"query_string\": {\r\n                    \"query\": \"drama\"\r\n                }\r\n            },\r\n            \"filter\": {\r\n                \"term\": { \"year\": 1962 }\r\n            }\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm/employees/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm",
+						"employees",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Employees with Job Manager",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"_source\" : [\"ENAME\"],\r\n \"query\": {\r\n    \"bool\": {\r\n      \"filter\":  \r\n        { \"term\": \r\n            { \"JOB\": \"MANAGER\" }\r\n        }\r\n    }\r\n }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm/employees/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm",
+						"employees",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Employees ename, salary for Salesmen ordered by salary desc",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_source\": [\r\n        \"ENAME\",\r\n        \"SAL\"\r\n    ],\r\n    \"query\": {\r\n        \"bool\": {\r\n            \"filter\": {\r\n                \"term\": {\r\n                    \"JOB\": \"SALESMAN\"\r\n                }\r\n            }\r\n        }\r\n    },\r\n    \"sort\": [\r\n        {\r\n            \"SAL\": {\r\n                \"order\": \"desc\"\r\n            }\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm/employees/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm",
+						"employees",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Top 2 Earning Salesmen",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_source\": [\r\n        \"ENAME\",\r\n        \"SAL\"\r\n    ],\r\n    \"size\": 2,\r\n    \"query\": {\r\n        \"bool\": {\r\n            \"filter\": {\r\n                \"term\": {\r\n                    \"JOB\": \"SALESMAN\"\r\n                }\r\n            }\r\n        }\r\n    },\r\n    \"sort\": [\r\n        {\r\n            \"SAL\": {\r\n                \"order\": \"desc\"\r\n            }\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm/employees/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm",
+						"employees",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Employees by Wildcard on ENAME",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"_source\": [ \"ENAME\", \"SAL\"],\r\n    \"query\": {\r\n      \"wildcard\": {\r\n            \"ENAME\": \"*ar*\"\r\n           }\r\n    },\r\n    \"sort\": [\r\n      {\r\n      \"ENAME\": {\"order\": \"asc\"}\r\n      }\r\n    ]\r\n  }\r\n  "
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm/employees/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm",
+						"employees",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Employees not in department 10, sorted by ename",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_source\": [\r\n        \"ENAME\",\r\n        \"SAL\",\r\n        \"DEPTNO\"\r\n    ],\r\n    \"query\": {\r\n        \"bool\": {\r\n            \"must_not\": {\r\n                \"term\": {\r\n                    \"DEPTNO\": \"10\"\r\n                }\r\n            }\r\n        }\r\n    },\r\n    \"sort\": [\r\n        {\r\n            \"ENAME\": {\r\n                \"order\": \"asc\"\r\n            }\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm/employees/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm",
+						"employees",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Salesmen with Income higher than X",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"_source\": [ \"*\"],\r\n  \"script_fields\": {\r\n    \"income\": {\r\n      \"script\": {\r\n        \"lang\": \"painless\",\r\n        \"source\": \"long income = 0 + doc['SAL'].value + doc['COMM'].value; return income \"\r\n      }\r\n    }\r\n  },\r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": {\r\n        \"script\": { \"script\": {\r\n           \"source\": \"doc['SAL'].value + doc['COMM'].value > 2000\",\r\n           \"lang\": \"painless\"\r\n           }\r\n        }\r\n      },\r\n      \"filter\": {\r\n        \"term\": { \"JOB\": \"SALESMAN\" }\r\n      }\r\n    }\r\n  }\r\n}\r\n\r\n"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm/employees/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm",
+						"employees",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Stored Script",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"script\": {\r\n    \"lang\": \"painless\",\r\n    \"source\": \"int cap = 0; String job = doc[params.job_field].value; cap = ( job =='SALESMAN')? (cap = 2000): (( job =='CLERK')? (cap = 1000):(( job =='ANALYST')? (cap = 3500):(( job =='MANAGER')? (cap = 3000):(cap=10000)))); return cap; \"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/_scripts/salary_cap",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"_scripts",
+						"salary_cap"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Query Employees with salary over salarycap",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_source\": [\r\n        \"ENAME\",\r\n        \"SAL\"\r\n    ],\r\n \"script_fields\": {\r\n    \"salary_cap\": {\r\n      \"script\": {\r\n        \"lang\":   \"painless\",\r\n        \"id\": \"salary_cap\",\r\n        \"params\": {\r\n          \"job_field\": \"JOB\"\r\n        }\r\n      }\r\n    }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/hrm/employees/_search",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"hrm",
+						"employees",
+						"_search"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
