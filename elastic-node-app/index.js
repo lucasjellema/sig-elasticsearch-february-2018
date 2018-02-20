@@ -33,6 +33,21 @@ client.ping({
             console.trace(err.message);
         });
 
+        // get a number of documents by id
+        // TODO: include some fields! 
+        client.mget({
+            "index": "parks",
+            "type": "doc",
+            "stored_fields": ["title"] // this does not work!
+            , "body": {
+                "ids": [1, 2, 3, 12, 32, 45, 55]
+            }
+        }, function (error, response) {
+            console.log(response);
+            var doc = response.docs[0];
+            console.log(doc);
+
+        });
     }
 });
 
@@ -43,7 +58,7 @@ var queryParksWithinVisitorRangeEstablishedInRangeInStateWithFirstLetterM = {
         "query": {
             "bool": {
                 "filter": {
-                    "query_string": {"query":"M*", "fields" :["states.title"] }
+                    "query_string": { "query": "M*", "fields": ["states.title"] }
                 },
                 "must": [{
                     "range":
@@ -56,12 +71,12 @@ var queryParksWithinVisitorRangeEstablishedInRangeInStateWithFirstLetterM = {
                         }
                 }
                     , {
-                        "range": {
-                            "visitors": {
-                                "gte": 2000000,
-                                "lt": 3000000
-                            }
+                    "range": {
+                        "visitors": {
+                            "gte": 2000000,
+                            "lt": 3000000
                         }
+                    }
                 }]
 
 

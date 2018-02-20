@@ -2,7 +2,7 @@
 	"info": {
 		"name": "Elastic",
 		"_postman_id": "307f6739-cd67-24cc-f654-0c0cd288c0d5",
-		"description": "Set ",
+		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -607,6 +607,36 @@
 							"value": "true",
 							"equals": true
 						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update all Parks - manipulate number of visitors",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"script\": {\r\n    \"source\": \"ctx._source.visitors =  ctx._source.visitors + new Random().nextInt(500000)\",\r\n    \"lang\": \"painless\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{ELASTIC_HOME}}:9200/parks/doc/_update_by_query",
+					"host": [
+						"{{ELASTIC_HOME}}"
+					],
+					"port": "9200",
+					"path": [
+						"parks",
+						"doc",
+						"_update_by_query"
 					]
 				},
 				"description": ""
